@@ -83,3 +83,4 @@ For answers to common questions about this code of conduct, see the FAQ at [http
 [FAQ]: https://www.contributor-covenant.org/faq
 [translations]: https://www.contributor-covenant.org/translations
 
+!(https://drive.google.com/file/d/1AhuZYiIdQSV7J0TT6y7D_6eHa6eECgej/view)
