@@ -1,4 +1,4 @@
-Login Button Placement Test
+__Login Button Placement Test__
 
 User Story Number:
 US2 – Login
@@ -33,7 +33,7 @@ Fields appear first, login button appears further down.
 Version B – Button Directly Under Password Field
 The login button appears immediately after the password field.
 
-NPS prompt — numeric scale vs. star rating
+__NPS prompt — numeric scale vs. star rating__
 US4 — User Engagement The NPS prompt triggers inside an authenticated session (every 3rd login), making it a sub-task of the engagement/retention user story rather than onboarding.
 Metrics — HEART
 Happiness
