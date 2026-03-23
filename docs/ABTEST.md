@@ -56,3 +56,21 @@ Audience split: 50% Variant A / 50% Variant B via Firebase Remote Config. A 50/5
 Firebase Analytics events to track: nps_prompt_shown, nps_prompt_dismissed (with variant param), nps_score_submitted (with variant + normalized score 0–10), session_continued_after_nps (user navigates within 60s of modal closing).
 Success threshold: Run until each variant has 200+ completed NPS responses or 3 weeks, whichever comes first. Star scores map to 0–10 scale (1★ = 0, 3★ = 5, 5★ = 10) for direct comparison.
 
+__A/B Test Name: "Service Discovery vs. Peer-to-Peer Posting"__
+User Story Number: US3 (Service Discovery / Peer-to-Peer Marketplace)
+Metrics (HEART):
+Engagement: "Post-to-Browse" ratio (How many students who look at URI services decide to offer their own).
+Retention: 7-day return rate (Do students come back to check for new peer services?).
+Hypothesis:
+Problem: We have high DAU for students looking up "URI Official Services" (like advising or dining), but very low participation in the "Student-to-Student" service section (cooking, tutoring, etc.). Students see the app as a "Directory" rather than a "Community."
+Hypothesis: If we add a "What can you offer?" call-to-action (CTA) banner at the bottom of official URI service pages, we will increase student-led postings by 20%. By nudging them while they are already looking for help, they will realize they can also provide help.
+Experiment:
+Setup: We will use Firebase Remote Config to toggle the visibility of the "Offer a Service" banner.
+Audience: 25% of URI students. We are starting small because we don't want to clutter the official URI information pages if it annoys users who are just looking for office hours.
+Tracking:
+click_cta_offer_service: Tracked via Firebase Analytics when the banner is clicked.
+post_created: Tracked when a student successfully submits a cooking/tutoring/etc. post.
+Variations:
+Variation A (Control): The "Official Services" page just lists URI department info (e.g., Campus Recreation info).
+Variation B (Test): The "Official Services" page includes a sticky footer or a card at the bottom that says: "Need help with something else? See what your fellow Rams are offering or [Post your own service]!"
+[Insert Mockup: A screenshot of the URI Gym info page with a small, purple "Post a Service" button at the bottom.]
