@@ -34,6 +34,7 @@ Version B – Button Directly Under Password Field
 The login button appears immediately after the password field.
 
 __NPS prompt — numeric scale vs. star rating__
+<br>
 US4 — User Engagement The NPS prompt triggers inside an authenticated session (every 3rd login), making it a sub-task of the engagement/retention user story rather than onboarding.
 Metrics — HEART
 Happiness
