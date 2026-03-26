@@ -76,13 +76,14 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       refreshListenable: appStateNotifier,
       navigatorKey: appNavigatorKey,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? OnboardingWidget() : HomePageWidget(),
+          appStateNotifier.loggedIn ? HomeWidget() : SignupAndLoginPageWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
-          builder: (context, _) =>
-              appStateNotifier.loggedIn ? OnboardingWidget() : HomePageWidget(),
+          builder: (context, _) => appStateNotifier.loggedIn
+              ? HomeWidget()
+              : SignupAndLoginPageWidget(),
         ),
         FFRoute(
           name: OnboardingWidget.routeName,
@@ -90,9 +91,29 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => OnboardingWidget(),
         ),
         FFRoute(
-          name: HomePageWidget.routeName,
-          path: HomePageWidget.routePath,
-          builder: (context, params) => HomePageWidget(),
+          name: HomeWidget.routeName,
+          path: HomeWidget.routePath,
+          builder: (context, params) => HomeWidget(),
+        ),
+        FFRoute(
+          name: DummyPageWidget.routeName,
+          path: DummyPageWidget.routePath,
+          builder: (context, params) => DummyPageWidget(),
+        ),
+        FFRoute(
+          name: ProfilePageWidget.routeName,
+          path: ProfilePageWidget.routePath,
+          builder: (context, params) => ProfilePageWidget(),
+        ),
+        FFRoute(
+          name: SignupAndLoginPageWidget.routeName,
+          path: SignupAndLoginPageWidget.routePath,
+          builder: (context, params) => SignupAndLoginPageWidget(),
+        ),
+        FFRoute(
+          name: RatingPageWidget.routeName,
+          path: RatingPageWidget.routePath,
+          builder: (context, params) => RatingPageWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -263,7 +284,7 @@ class FFRoute {
 
           if (requireAuth && !appStateNotifier.loggedIn) {
             appStateNotifier.setRedirectLocationIfUnset(state.uri.toString());
-            return '/homePage';
+            return '/signupAndLoginPage';
           }
           return null;
         },
