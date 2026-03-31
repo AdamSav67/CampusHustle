@@ -5,8 +5,14 @@
 NPS - Add an NPS question every 3 logins 
 
 <br>
+Adoption - See how many times there was a succesful account creation
+
+<br>
 DAU - Count how many times users return every 7 or 14 days.. 
 and how many people post an event and how many people are browsing...
+
+<br>
+Retention - Check the number of logins
 
 <br>
 Number of Conversions -  count how many times someone bought or listed a service on the app
