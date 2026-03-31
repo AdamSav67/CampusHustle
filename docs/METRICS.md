@@ -15,4 +15,7 @@ and how many people post an event and how many people are browsing...
 Retention - Check the number of logins
 
 <br>
+CTR to track onboarding - This is collected when a user finishes onboarding
+
+<br>
 Number of Conversions -  count how many times someone bought or listed a service on the app
