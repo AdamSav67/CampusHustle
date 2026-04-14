@@ -42,6 +42,7 @@ void main() async {
     ));
     await GoogleFonts.pendingFonts();
 
+    await tester.pumpAndSettle(const Duration(milliseconds: 20));
     await tester.tap(find.byKey(const ValueKey('login_tab_ol16')));
     await tester.pumpAndSettle(const Duration(milliseconds: 200));
     await tester.tap(find.byKey(const ValueKey('Login_email_wcsx')));
@@ -53,7 +54,8 @@ void main() async {
     await tester.pumpAndSettle(const Duration(milliseconds: 200));
     await tester.enterText(
         find.byKey(const ValueKey('Login_password_rl49')), 'testtest');
-    await tester.pumpAndSettle(const Duration(milliseconds: 200));
+    FocusManager.instance.primaryFocus?.unfocus();
+    await tester.pumpAndSettle(const Duration(milliseconds: 2000));
     expect(find.byKey(const ValueKey('Text_lxo6')), findsWidgets);
   });
 }
