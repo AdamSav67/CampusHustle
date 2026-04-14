@@ -766,6 +766,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
+                                            key: ValueKey('Text_lxo6'),
                                             'Featured Products ',
                                             style: FlutterFlowTheme.of(context)
                                                 .headlineLarge
