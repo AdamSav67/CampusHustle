@@ -48,6 +48,12 @@ class FFAppState extends ChangeNotifier {
   void deleteLoginCount() {
     secureStorage.delete(key: 'ff_loginCount');
   }
+
+  double _cartTotal = 0.0;
+  double get cartTotal => _cartTotal;
+  set cartTotal(double value) {
+    _cartTotal = value;
+  }
 }
 
 void _safeInit(Function() initializeField) {

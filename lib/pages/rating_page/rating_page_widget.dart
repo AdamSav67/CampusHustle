@@ -1,9 +1,12 @@
+import '/auth/firebase_auth/auth_util.dart';
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'rating_page_model.dart';
 export 'rating_page_model.dart';
 
@@ -42,6 +45,8 @@ class _RatingPageWidgetState extends State<RatingPageWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -434,6 +439,14 @@ class _RatingPageWidgetState extends State<RatingPageWidget> {
                       logFirebaseEvent('Button_update_app_state');
                       FFAppState().finalStarRating = _model.starRating;
                       safeSetState(() {});
+                      logFirebaseEvent('Button_backend_call');
+
+                      await RatingCollectionRecord.collection
+                          .doc()
+                          .set(createRatingCollectionRecordData(
+                            userEmail: currentUserEmail,
+                            appRating: FFAppState().finalStarRating,
+                          ));
                       logFirebaseEvent('Button_navigate_to');
 
                       context.pushNamed(HomeWidget.routeName);

@@ -2,10 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '/backend/backend.dart';
 
 import '/auth/base_auth_user_provider.dart';
 
-import '/flutter_flow/flutter_flow_theme.dart';
+import '/main.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
 import '/index.dart';
@@ -70,30 +71,22 @@ class AppStateNotifier extends ChangeNotifier {
   }
 }
 
-GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
+GoRouter createRouter(AppStateNotifier appStateNotifier, [Widget? entryPage]) =>
+    GoRouter(
       initialLocation: '/',
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       navigatorKey: appNavigatorKey,
-      errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? HomeWidget() : SignupAndLoginPageWidget(),
+      errorBuilder: (context, state) => appStateNotifier.loggedIn
+          ? entryPage ?? NavBarPage()
+          : SignupAndLoginPageWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) => appStateNotifier.loggedIn
-              ? HomeWidget()
+              ? entryPage ?? NavBarPage()
               : SignupAndLoginPageWidget(),
-        ),
-        FFRoute(
-          name: OnboardingWidget.routeName,
-          path: OnboardingWidget.routePath,
-          builder: (context, params) => OnboardingWidget(),
-        ),
-        FFRoute(
-          name: HomeWidget.routeName,
-          path: HomeWidget.routePath,
-          builder: (context, params) => HomeWidget(),
         ),
         FFRoute(
           name: DummyPageWidget.routeName,
@@ -101,9 +94,34 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => DummyPageWidget(),
         ),
         FFRoute(
+          name: OnboardingWidget.routeName,
+          path: OnboardingWidget.routePath,
+          builder: (context, params) => OnboardingWidget(),
+        ),
+        FFRoute(
           name: ProfilePageWidget.routeName,
           path: ProfilePageWidget.routePath,
-          builder: (context, params) => ProfilePageWidget(),
+          builder: (context, params) => params.isEmpty
+              ? NavBarPage(initialPage: 'ProfilePage')
+              : ProfilePageWidget(),
+        ),
+        FFRoute(
+          name: RatingPageWidget.routeName,
+          path: RatingPageWidget.routePath,
+          builder: (context, params) => RatingPageWidget(),
+        ),
+        FFRoute(
+          name: QuickViewWidget.routeName,
+          path: QuickViewWidget.routePath,
+          asyncParams: {
+            'serviceDoc': getDoc(['Service'], ServiceRecord.fromSnapshot),
+          },
+          builder: (context, params) => QuickViewWidget(
+            serviceDoc: params.getParam(
+              'serviceDoc',
+              ParamType.Document,
+            ),
+          ),
         ),
         FFRoute(
           name: SignupAndLoginPageWidget.routeName,
@@ -111,9 +129,27 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => SignupAndLoginPageWidget(),
         ),
         FFRoute(
-          name: RatingPageWidget.routeName,
-          path: RatingPageWidget.routePath,
-          builder: (context, params) => RatingPageWidget(),
+          name: CreateProductWidget.routeName,
+          path: CreateProductWidget.routePath,
+          builder: (context, params) => CreateProductWidget(),
+        ),
+        FFRoute(
+          name: CheckoutPageWidget.routeName,
+          path: CheckoutPageWidget.routePath,
+          builder: (context, params) => params.isEmpty
+              ? NavBarPage(initialPage: 'CheckoutPage')
+              : CheckoutPageWidget(),
+        ),
+        FFRoute(
+          name: HomeWidget.routeName,
+          path: HomeWidget.routePath,
+          builder: (context, params) =>
+              params.isEmpty ? NavBarPage(initialPage: 'home') : HomeWidget(),
+        ),
+        FFRoute(
+          name: SuccessPageWidget.routeName,
+          path: SuccessPageWidget.routePath,
+          builder: (context, params) => SuccessPageWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -298,15 +334,11 @@ class FFRoute {
                 )
               : builder(context, ffParams);
           final child = appStateNotifier.loading
-              ? Center(
-                  child: SizedBox(
-                    width: 50.0,
-                    height: 50.0,
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        FlutterFlowTheme.of(context).primary,
-                      ),
-                    ),
+              ? Container(
+                  color: Colors.transparent,
+                  child: Image.asset(
+                    'assets/images/ChatGPT_Image_Mar_9,_2026_at_02_33_35_PM.png',
+                    fit: BoxFit.contain,
                   ),
                 )
               : page;
