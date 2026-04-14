@@ -1101,6 +1101,7 @@ class _SignupAndLoginPageWidgetState extends State<SignupAndLoginPageWidget>
                       padding:
                           EdgeInsetsDirectional.fromSTEB(0.0, 100.0, 0.0, 0.0),
                       child: FFButtonWidget(
+                        key: ValueKey('login_button_bottom_x45s'),
                         onPressed: () async {
                           logFirebaseEvent(
                               'SIGNUP_AND_LOGIN_login_button_bottom_ON_');
