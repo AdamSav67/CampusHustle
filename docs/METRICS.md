@@ -1,21 +1,51 @@
-<https://docs.google.com/presentation/d/1jYAclNgE6HlEzAsITKybqriMMZXRc2y-Ck1vZKkWN4A/edit?usp=sharing>
+# Product Metrics Overview
 
+> 📊 [View Presentation](https://docs.google.com/presentation/d/1jYAclNgE6HlEzAsITKybqriMMZXRc2y-Ck1vZKkWN4A/edit?usp=sharing)
 
-<br>
-NPS - Add an NPS question every 3 logins 
+---
 
-<br>
-Adoption - See how many times there was a succesful account creation
+## ★ NPS — Net Promoter Score
 
-<br>
-DAU - Count how many times users return every 7 or 14 days.. 
-and how many people post an event and how many people are browsing...
+**Trigger:** Every 3 logins
 
-<br>
-Retention - Check the number of logins
+Prompt users with an NPS question every 3 logins to measure satisfaction over time.
 
-<br>
-CTR to track onboarding - This is collected when a user finishes onboarding
+---
 
-<br>
-Number of Conversions -  count how many times someone bought or listed a service on the app
+## ↑ Adoption — Account Creation
+
+**Trigger:** On sign-up
+
+Track the number of successful account creations to measure top-of-funnel adoption.
+
+---
+
+## ◉ DAU — Daily Active Users
+
+**Trigger:** 7-day window · 14-day window
+
+Count user returns every 7 or 14 days, broken down by action type — event posting vs. passive browsing.
+
+---
+
+## ↻ Retention — Login Frequency
+
+**Trigger:** Per login
+
+Measure retention by tracking the total number of logins over a given period.
+
+---
+
+## → CTR — Onboarding Click-Through
+
+**Trigger:** On onboarding complete
+
+Captured when a user completes onboarding — indicates successful first-run engagement.
+
+---
+
+## $ Conversions — Transactions
+
+**Trigger:** Purchases · Listings
+
+Count total conversions — including both service purchases and new service listings on the app.
