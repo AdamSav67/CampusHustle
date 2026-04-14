@@ -42,7 +42,7 @@ void main() async {
     ));
     await GoogleFonts.pendingFonts();
 
-    await tester.pumpAndSettle(const Duration(milliseconds: 20));
+    await tester.pumpAndSettle(const Duration(milliseconds: 2000));
     await tester.tap(find.byKey(const ValueKey('login_tab_ol16')));
     await tester.pumpAndSettle(const Duration(milliseconds: 200));
     await tester.tap(find.byKey(const ValueKey('Login_email_wcsx')));
