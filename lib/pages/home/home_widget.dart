@@ -2345,6 +2345,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                         ],
                       ),
                       FFButtonWidget(
+                        key: ValueKey('PostButton_t8el'),
                         onPressed: () async {
                           logFirebaseEvent('HOME_PAGE_PostButton_ON_TAP');
                           logFirebaseEvent('PostButton_navigate_to');

@@ -42,7 +42,7 @@ void main() async {
     ));
     await GoogleFonts.pendingFonts();
 
-    await tester.pumpAndSettle(const Duration(milliseconds: 2000));
+    await tester.pumpAndSettle(const Duration(milliseconds: 200));
     await tester.tap(find.byKey(const ValueKey('login_tab_ol16')));
     await tester.pumpAndSettle(const Duration(milliseconds: 200));
     await tester.tap(find.byKey(const ValueKey('Login_email_wcsx')));
@@ -57,8 +57,40 @@ void main() async {
     FocusManager.instance.primaryFocus?.unfocus();
     await tester.pumpAndSettle(const Duration(milliseconds: 200));
     await tester.tap(find.byKey(const ValueKey('login_button_bottom_x45s')));
-    await tester.pumpAndSettle(const Duration(milliseconds: 2000));
+    await tester.pumpAndSettle(const Duration(milliseconds: 200));
     expect(find.byKey(const ValueKey('Text_lxo6')), findsWidgets);
+  });
+
+  testWidgets('US4 Golden Path', (WidgetTester tester) async {
+    _overrideOnError();
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: 'bob123@gmail.com', password: 'bob123');
+    await tester.pumpWidget(ChangeNotifierProvider(
+      create: (context) => FFAppState(),
+      child: const MyApp(),
+    ));
+    await GoogleFonts.pendingFonts();
+
+    await tester.pumpAndSettle(const Duration(milliseconds: 3000));
+    await tester.tap(find.byKey(const ValueKey('PostButton_t8el')));
+    await tester.pumpAndSettle(const Duration(milliseconds: 2000));
+    await tester.tap(find.byKey(const ValueKey('serviceName_inxk')));
+    await tester.pumpAndSettle(const Duration(milliseconds: 2000));
+    await tester.enterText(
+        find.byKey(const ValueKey('serviceName_inxk')), 'robot food');
+    await tester.pumpAndSettle(const Duration(milliseconds: 500));
+    await tester.tap(find.byKey(const ValueKey('description_o68m')));
+    await tester.pumpAndSettle(const Duration(milliseconds: 500));
+    await tester.enterText(find.byKey(const ValueKey('description_o68m')),
+        'gooooooooooooooooooooooooooooooooooood');
+    await tester.pumpAndSettle(const Duration(milliseconds: 500));
+    await tester.tap(find.byKey(const ValueKey('price_g33i')));
+    await tester.pumpAndSettle(const Duration(milliseconds: 500));
+    await tester.enterText(find.byKey(const ValueKey('price_g33i')), '400');
+    await tester.pumpAndSettle(const Duration(milliseconds: 2000));
+    await tester.tap(find.byKey(const ValueKey('PostButton_x989')));
+    await tester.pumpAndSettle(const Duration(milliseconds: 2000));
+    expect(find.text('robot food'), findsWidgets);
   });
 }
 

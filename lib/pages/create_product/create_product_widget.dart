@@ -387,6 +387,7 @@ class _CreateProductWidgetState extends State<CreateProductWidget> {
                                           ),
                                         ),
                                         TextFormField(
+                                          key: ValueKey('serviceName_inxk'),
                                           controller:
                                               _model.serviceNameTextController,
                                           focusNode:
@@ -584,6 +585,7 @@ class _CreateProductWidgetState extends State<CreateProductWidget> {
                                           ],
                                         ),
                                         TextFormField(
+                                          key: ValueKey('description_o68m'),
                                           controller:
                                               _model.descriptionTextController,
                                           focusNode:
@@ -985,6 +987,7 @@ class _CreateProductWidgetState extends State<CreateProductWidget> {
                                                         ),
                                                   ),
                                                   TextFormField(
+                                                    key: ValueKey('price_g33i'),
                                                     controller: _model
                                                         .priceTextController,
                                                     focusNode:
@@ -1225,6 +1228,7 @@ class _CreateProductWidgetState extends State<CreateProductWidget> {
                     padding:
                         EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
                     child: FFButtonWidget(
+                      key: ValueKey('PostButton_x989'),
                       onPressed: () async {
                         logFirebaseEvent(
                             'CREATE_PRODUCT_PAGE_PostButton_ON_TAP');
