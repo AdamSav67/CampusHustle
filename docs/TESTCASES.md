@@ -7,7 +7,7 @@ https://docs.google.com/presentation/d/11KpJ_I_5lDhVAg0KpCQ0Y2DzXdW57RoeQW1eGlmH
 US3: Profile Creation
 
 
-US4: Golden Path
+US4: Golden Path -- https://docs.google.com/presentation/d/14mQMcFgEKn10ECs_-5ES6XSMAxhxUwZbbKH2dw9pyVE/edit?usp=sharing
 
 
 US5: <something>
