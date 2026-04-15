@@ -158,6 +158,7 @@ class _SignupAndLoginPageWidgetState extends State<SignupAndLoginPageWidget>
                               8.0, 0.0, 8.0, 0.0),
                           tabs: [
                             Tab(
+                              key: ValueKey('signup_tab_xvm5'),
                               text: 'Sign Up',
                             ),
                             Tab(
@@ -185,6 +186,7 @@ class _SignupAndLoginPageWidgetState extends State<SignupAndLoginPageWidget>
                                   Container(
                                     width: 342.0,
                                     child: TextFormField(
+                                      key: ValueKey('Signup_email_33ao'),
                                       controller:
                                           _model.signupEmailTextController,
                                       focusNode: _model.signupEmailFocusNode,
@@ -342,6 +344,7 @@ class _SignupAndLoginPageWidgetState extends State<SignupAndLoginPageWidget>
                                     child: Container(
                                       width: 342.0,
                                       child: TextFormField(
+                                        key: ValueKey('Signup_password_3lq0'),
                                         controller:
                                             _model.signupPasswordTextController,
                                         focusNode:
@@ -508,6 +511,8 @@ class _SignupAndLoginPageWidgetState extends State<SignupAndLoginPageWidget>
                                     child: Container(
                                       width: 342.0,
                                       child: TextFormField(
+                                        key:
+                                            ValueKey('Signup_confirmPass_drwi'),
                                         controller: _model
                                             .signupConfirmPassTextController,
                                         focusNode:
@@ -1181,6 +1186,7 @@ class _SignupAndLoginPageWidgetState extends State<SignupAndLoginPageWidget>
                           'inline') &&
                       (_model.tabBarCurrentIndex == 1))
                     FFButtonWidget(
+                      key: ValueKey('login_button_inline_oas2'),
                       onPressed: () async {
                         logFirebaseEvent(
                             'SIGNUP_AND_LOGIN_login_button_inline_ON_');
