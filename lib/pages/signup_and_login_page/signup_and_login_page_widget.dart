@@ -161,6 +161,7 @@ class _SignupAndLoginPageWidgetState extends State<SignupAndLoginPageWidget>
                               text: 'Sign Up',
                             ),
                             Tab(
+                              key: ValueKey('login_tab_ol16'),
                               text: 'Log In',
                             ),
                           ],
@@ -679,6 +680,7 @@ class _SignupAndLoginPageWidgetState extends State<SignupAndLoginPageWidget>
                                   Container(
                                     width: 342.0,
                                     child: TextFormField(
+                                      key: ValueKey('Login_email_wcsx'),
                                       controller:
                                           _model.loginEmailTextController,
                                       focusNode: _model.loginEmailFocusNode,
@@ -836,6 +838,7 @@ class _SignupAndLoginPageWidgetState extends State<SignupAndLoginPageWidget>
                                     child: Container(
                                       width: 342.0,
                                       child: TextFormField(
+                                        key: ValueKey('Login_password_rl49'),
                                         controller:
                                             _model.loginPasswordTextController,
                                         focusNode:
@@ -1091,15 +1094,18 @@ class _SignupAndLoginPageWidgetState extends State<SignupAndLoginPageWidget>
                         ),
                       ),
                     ),
-                  if (_model.tabBarCurrentIndex == 1)
+                  if ((getRemoteConfigString('login_button_position') ==
+                          'bottom') &&
+                      (_model.tabBarCurrentIndex == 1))
                     Padding(
                       padding:
                           EdgeInsetsDirectional.fromSTEB(0.0, 100.0, 0.0, 0.0),
                       child: FFButtonWidget(
+                        key: ValueKey('login_button_bottom_x45s'),
                         onPressed: () async {
                           logFirebaseEvent(
-                              'SIGNUP_AND_LOGIN_login_button_ON_TAP');
-                          logFirebaseEvent('login_button_auth');
+                              'SIGNUP_AND_LOGIN_login_button_bottom_ON_');
+                          logFirebaseEvent('login_button_bottom_auth');
                           GoRouter.of(context).prepareAuthEvent();
 
                           final user = await authManager.signInWithEmail(
@@ -1111,19 +1117,24 @@ class _SignupAndLoginPageWidgetState extends State<SignupAndLoginPageWidget>
                             return;
                           }
 
-                          logFirebaseEvent('login_button_update_app_state');
+                          logFirebaseEvent(
+                              'login_button_bottom_update_app_state');
                           FFAppState().loginCount = FFAppState().loginCount + 1;
                           safeSetState(() {});
-                          if (FFAppState().loginCount == 4) {
-                            logFirebaseEvent('login_button_navigate_to');
+                          logFirebaseEvent(
+                              'login_button_bottom_google_analytics_eve');
+                          logFirebaseEvent('button_click');
+                          if (FFAppState().loginCount == 2) {
+                            logFirebaseEvent('login_button_bottom_navigate_to');
 
                             context.pushNamedAuth(
                                 RatingPageWidget.routeName, context.mounted);
 
-                            logFirebaseEvent('login_button_update_app_state');
+                            logFirebaseEvent(
+                                'login_button_bottom_update_app_state');
                             FFAppState().loginCount = 0;
                           } else {
-                            logFirebaseEvent('login_button_navigate_to');
+                            logFirebaseEvent('login_button_bottom_navigate_to');
 
                             context.pushNamedAuth(
                                 HomeWidget.routeName, context.mounted);
@@ -1164,6 +1175,81 @@ class _SignupAndLoginPageWidgetState extends State<SignupAndLoginPageWidget>
                           ),
                           borderRadius: BorderRadius.circular(24.0),
                         ),
+                      ),
+                    ),
+                  if ((getRemoteConfigString('login_button_position') ==
+                          'inline') &&
+                      (_model.tabBarCurrentIndex == 1))
+                    FFButtonWidget(
+                      onPressed: () async {
+                        logFirebaseEvent(
+                            'SIGNUP_AND_LOGIN_login_button_inline_ON_');
+                        logFirebaseEvent('login_button_inline_auth');
+                        GoRouter.of(context).prepareAuthEvent();
+
+                        final user = await authManager.signInWithEmail(
+                          context,
+                          _model.loginEmailTextController.text,
+                          _model.loginPasswordTextController.text,
+                        );
+                        if (user == null) {
+                          return;
+                        }
+
+                        logFirebaseEvent(
+                            'login_button_inline_update_app_state');
+                        FFAppState().loginCount = FFAppState().loginCount + 1;
+                        safeSetState(() {});
+                        if (FFAppState().loginCount == 2) {
+                          logFirebaseEvent('login_button_inline_navigate_to');
+
+                          context.pushNamedAuth(
+                              RatingPageWidget.routeName, context.mounted);
+
+                          logFirebaseEvent(
+                              'login_button_inline_update_app_state');
+                          FFAppState().loginCount = 0;
+                        } else {
+                          logFirebaseEvent('login_button_inline_navigate_to');
+
+                          context.pushNamedAuth(
+                              HomeWidget.routeName, context.mounted);
+                        }
+                      },
+                      text: 'Login',
+                      options: FFButtonOptions(
+                        width: 342.0,
+                        height: 70.0,
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            16.0, 0.0, 16.0, 0.0),
+                        iconPadding:
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                        color: FlutterFlowTheme.of(context).mintLeaf,
+                        textStyle:
+                            FlutterFlowTheme.of(context).titleSmall.override(
+                                  font: GoogleFonts.interTight(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontStyle,
+                                  ),
+                                  color: FlutterFlowTheme.of(context).black,
+                                  fontSize: 24.0,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontStyle,
+                                ),
+                        elevation: 0.0,
+                        borderSide: BorderSide(
+                          color: FlutterFlowTheme.of(context).black,
+                        ),
+                        borderRadius: BorderRadius.circular(24.0),
                       ),
                     ),
                 ],

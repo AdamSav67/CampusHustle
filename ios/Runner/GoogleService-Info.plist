@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.mycompany.campushustlecsc305</string>
+	<string>com.uricsc305.campushustle</string>
 	<key>PROJECT_ID</key>
 	<string>campus-hustle-c-s-c305-mn8qj2</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:429363413184:ios:ed9b5c83dbb8c8efd3ed25</string>
+	<string>1:429363413184:ios:30253690f3789368d3ed25</string>
 </dict>
 </plist>

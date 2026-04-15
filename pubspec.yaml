@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 2.0.0+1
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -35,11 +35,16 @@ dependencies:
   cloud_firestore_platform_interface: 6.6.9
   cloud_firestore_web: 4.4.9
   collection: 1.19.1
-  cross_file: 0.3.4+2
+  cross_file: 0.3.5+1
   csslib: 1.0.2
   csv: 6.0.0
-  dropdown_button2: 2.3.9
+  dropdown_button2: 
+    git:
+      url: https://github.com/FlutterFlow/dropdown_button2.git
+      ref: 9bbeb2fd68e12615251a67208eb21bc75628c02c
+      path: packages/dropdown_button2
   easy_debounce: 2.0.1
+  equatable: 2.0.7
   file_picker: 10.1.9
   firebase_analytics: 11.5.0
   firebase_analytics_platform_interface: 4.4.0
@@ -53,6 +58,9 @@ dependencies:
   firebase_performance: 0.10.1+7
   firebase_performance_platform_interface: 0.1.5+7
   firebase_performance_web: 0.1.7+13
+  firebase_remote_config: 5.4.5
+  firebase_remote_config_platform_interface: 1.5.5
+  firebase_remote_config_web: 1.8.5
   firebase_storage: 12.4.7
   firebase_storage_platform_interface: 5.2.7
   firebase_storage_web: 3.10.14
@@ -75,6 +83,7 @@ dependencies:
   google_sign_in_platform_interface: 2.5.0
   google_sign_in_web: 0.12.4+4
   html: 0.15.6
+  http: 1.4.0
   image_picker: 1.1.2
   image_picker_android: 0.8.12+23
   image_picker_for_web: 3.0.6
@@ -135,10 +144,25 @@ dependency_overrides:
   uuid: ^4.0.0
 
 dev_dependencies:
+  flutter_launcher_icons: 0.13.1
   flutter_lints: 4.0.0
+  image: 4.2.0
+  integration_test: 
+    sdk: flutter
   lints: 4.0.0
   flutter_test:
     sdk: flutter
+
+
+flutter_launcher_icons:
+  android: 'launcher_icon'
+  ios: true
+  web:
+    generate: true
+  image_path: 'assets/images/app_launcher_icon.png'
+  adaptive_icon_background: '#00000000'
+  adaptive_icon_foreground: 'assets/images/adaptive_foreground_icon.png'
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
