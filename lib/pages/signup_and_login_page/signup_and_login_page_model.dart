@@ -7,6 +7,7 @@ class SignupAndLoginPageModel
     extends FlutterFlowModel<SignupAndLoginPageWidget> {
   ///  State fields for stateful widgets in this page.
 
+  final formKey = GlobalKey<FormState>();
   // State field(s) for TabBar widget.
   TabController? tabBarController;
   int get tabBarCurrentIndex =>
@@ -18,6 +19,18 @@ class SignupAndLoginPageModel
   FocusNode? signupEmailFocusNode;
   TextEditingController? signupEmailTextController;
   String? Function(BuildContext, String?)? signupEmailTextControllerValidator;
+  String? _signupEmailTextControllerValidator(
+      BuildContext context, String? val) {
+    if (val == null || val.isEmpty) {
+      return 'Email... is required';
+    }
+
+    if (!RegExp('^.*\\.edu\$').hasMatch(val)) {
+      return 'Invalid text';
+    }
+    return null;
+  }
+
   // State field(s) for Signup_password widget.
   FocusNode? signupPasswordFocusNode;
   TextEditingController? signupPasswordTextController;
@@ -42,6 +55,7 @@ class SignupAndLoginPageModel
 
   @override
   void initState(BuildContext context) {
+    signupEmailTextControllerValidator = _signupEmailTextControllerValidator;
     signupPasswordVisibility = false;
     signupConfirmPassVisibility = false;
     loginPasswordVisibility = false;

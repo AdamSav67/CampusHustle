@@ -35,9 +35,21 @@ class CreateProductModel extends FlutterFlowModel<CreateProductWidget> {
   FocusNode? priceFocusNode;
   TextEditingController? priceTextController;
   String? Function(BuildContext, String?)? priceTextControllerValidator;
+  String? _priceTextControllerValidator(BuildContext context, String? val) {
+    if (val == null || val.isEmpty) {
+      return 'Not a valid amount of money';
+    }
+
+    if (!RegExp('^\\d+(\\.\\d{2})?\$').hasMatch(val)) {
+      return 'Invalid text';
+    }
+    return null;
+  }
 
   @override
-  void initState(BuildContext context) {}
+  void initState(BuildContext context) {
+    priceTextControllerValidator = _priceTextControllerValidator;
+  }
 
   @override
   void dispose() {

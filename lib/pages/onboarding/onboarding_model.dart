@@ -1,3 +1,4 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/index.dart';
@@ -7,6 +8,8 @@ import 'package:flutter/material.dart';
 class OnboardingModel extends FlutterFlowModel<OnboardingWidget> {
   ///  State fields for stateful widgets in this page.
 
+  // Stores action output result for [Backend Call - API (SearchUniversities)] action in Onboarding widget.
+  ApiCallResponse? apiResult620;
   bool isDataUploading_profilePhoto = false;
   FFUploadedFile uploadedLocalFile_profilePhoto =
       FFUploadedFile(bytes: Uint8List.fromList([]), originalFilename: '');
@@ -16,23 +19,19 @@ class OnboardingModel extends FlutterFlowModel<OnboardingWidget> {
   String? profGradeDropDownValue;
   FormFieldController<String>? profGradeDropDownValueController;
   // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode1;
-  TextEditingController? textController1;
-  String? Function(BuildContext, String?)? textController1Validator;
-  // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode2;
-  TextEditingController? textController2;
-  String? Function(BuildContext, String?)? textController2Validator;
+  FocusNode? textFieldFocusNode;
+  TextEditingController? textController;
+  String? Function(BuildContext, String?)? textControllerValidator;
+  // State field(s) for DropDown widget.
+  String? dropDownValue;
+  FormFieldController<String>? dropDownValueController;
 
   @override
   void initState(BuildContext context) {}
 
   @override
   void dispose() {
-    textFieldFocusNode1?.dispose();
-    textController1?.dispose();
-
-    textFieldFocusNode2?.dispose();
-    textController2?.dispose();
+    textFieldFocusNode?.dispose();
+    textController?.dispose();
   }
 }

@@ -24,12 +24,11 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
   // State field(s) for SortDropDown widget.
   String? sortDropDownValue;
   FormFieldController<String>? sortDropDownValueController;
-  // State field(s) for ChoiceChips widget.
-  FormFieldController<List<String>>? choiceChipsValueController;
-  String? get choiceChipsValue =>
-      choiceChipsValueController?.value?.firstOrNull;
-  set choiceChipsValue(String? val) =>
-      choiceChipsValueController?.value = val != null ? [val] : [];
+  // State field(s) for Filters widget.
+  FormFieldController<List<String>>? filtersValueController;
+  String? get filtersValue => filtersValueController?.value?.firstOrNull;
+  set filtersValue(String? val) =>
+      filtersValueController?.value = val != null ? [val] : [];
   // State field(s) for ListView widget.
 
   PagingController<DocumentSnapshot?, ServiceRecord>? listViewPagingController2;

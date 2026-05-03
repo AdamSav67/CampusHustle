@@ -54,6 +54,47 @@ class FFAppState extends ChangeNotifier {
   set cartTotal(double value) {
     _cartTotal = value;
   }
+
+  List<String> _schoolList = [];
+  List<String> get schoolList => _schoolList;
+  set schoolList(List<String> value) {
+    _schoolList = value;
+  }
+
+  void addToSchoolList(String value) {
+    schoolList.add(value);
+  }
+
+  void removeFromSchoolList(String value) {
+    schoolList.remove(value);
+  }
+
+  void removeAtIndexFromSchoolList(int index) {
+    schoolList.removeAt(index);
+  }
+
+  void updateSchoolListAtIndex(
+    int index,
+    String Function(String) updateFn,
+  ) {
+    schoolList[index] = updateFn(_schoolList[index]);
+  }
+
+  void insertAtIndexInSchoolList(int index, String value) {
+    schoolList.insert(index, value);
+  }
+
+  double _cartSubtotal = 0.0;
+  double get cartSubtotal => _cartSubtotal;
+  set cartSubtotal(double value) {
+    _cartSubtotal = value;
+  }
+
+  double _cartTax = 0.0;
+  double get cartTax => _cartTax;
+  set cartTax(double value) {
+    _cartTax = value;
+  }
 }
 
 void _safeInit(Function() initializeField) {

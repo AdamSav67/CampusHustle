@@ -12,7 +12,9 @@ import '/flutter_flow/upload_data.dart';
 import '/index.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'profile_page_model.dart';
 export 'profile_page_model.dart';
 
@@ -37,13 +39,31 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
     _model = createModel(context, () => ProfilePageModel());
 
     logFirebaseEvent('screen_view', parameters: {'screen_name': 'ProfilePage'});
-    _model.textController1 ??=
-        TextEditingController(text: currentUserDisplayName);
-    _model.textFieldFocusNode1 ??= FocusNode();
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      logFirebaseEvent('PROFILE_ProfilePage_ON_INIT_STATE');
+      logFirebaseEvent('ProfilePage_backend_call');
+      _model.apiResultmru = await SearchUniversitiesCall.call();
 
-    _model.textController2 ??= TextEditingController(
-        text: valueOrDefault(currentUserDocument?.school, ''));
-    _model.textFieldFocusNode2 ??= FocusNode();
+      if ((_model.apiResultmru?.succeeded ?? true)) {
+        logFirebaseEvent('ProfilePage_update_app_state');
+        FFAppState().schoolList = (getJsonField(
+          (_model.apiResultmru?.jsonBody ?? ''),
+          r'''$[:].name''',
+          true,
+        ) as List?)!
+            .map<String>((e) => e.toString())
+            .toList()
+            .cast<String>()
+            .toList()
+            .cast<String>();
+        safeSetState(() {});
+      }
+    });
+
+    _model.textController ??=
+        TextEditingController(text: currentUserDisplayName);
+    _model.textFieldFocusNode ??= FocusNode();
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
@@ -57,6 +77,8 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -404,10 +426,10 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                   builder: (context) => Container(
                                     width: 400.0,
                                     child: TextFormField(
-                                      controller: _model.textController1,
-                                      focusNode: _model.textFieldFocusNode1,
+                                      controller: _model.textController,
+                                      focusNode: _model.textFieldFocusNode,
                                       onChanged: (_) => EasyDebounce.debounce(
-                                        '_model.textController1',
+                                        '_model.textController',
                                         Duration(milliseconds: 2000),
                                         () async {
                                           logFirebaseEvent(
@@ -418,7 +440,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                           await currentUserReference!
                                               .update(createUsersRecordData(
                                             displayName:
-                                                _model.textController1.text,
+                                                _model.textController.text,
                                           ));
                                         },
                                       ),
@@ -515,11 +537,11 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                         contentPadding:
                                             EdgeInsetsDirectional.fromSTEB(
                                                 24.0, 26.0, 24.0, 26.0),
-                                        suffixIcon: _model.textController1!.text
-                                                .isNotEmpty
+                                        suffixIcon: _model
+                                                .textController!.text.isNotEmpty
                                             ? InkWell(
                                                 onTap: () async {
-                                                  _model.textController1
+                                                  _model.textController
                                                       ?.clear();
                                                   logFirebaseEvent(
                                                       'PROFILE_TextField_9cbtqrr9_ON_TEXTFIELD_');
@@ -530,7 +552,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                                       .update(
                                                           createUsersRecordData(
                                                     displayName: _model
-                                                        .textController1.text,
+                                                        .textController.text,
                                                   ));
                                                   safeSetState(() {});
                                                 },
@@ -571,209 +593,105 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                       cursorColor: FlutterFlowTheme.of(context)
                                           .primaryText,
                                       enableInteractiveSelection: true,
-                                      validator: _model.textController1Validator
+                                      validator: _model.textControllerValidator
                                           .asValidator(context),
                                     ),
                                   ),
                                 ),
-                                AuthUserStreamWidget(
-                                  builder: (context) =>
-                                      FutureBuilder<ApiCallResponse>(
-                                    future: SearchUniversitiesCall.call(
-                                      name: valueOrDefault(
-                                          currentUserDocument?.school, ''),
-                                    ),
-                                    builder: (context, snapshot) {
-                                      // Customize what your widget looks like when it's loading.
-                                      if (!snapshot.hasData) {
-                                        return Center(
-                                          child: SizedBox(
-                                            width: 50.0,
-                                            height: 50.0,
-                                            child: CircularProgressIndicator(
-                                              valueColor:
-                                                  AlwaysStoppedAnimation<Color>(
+                                FlutterFlowDropDown<String>(
+                                  controller: _model.dropDownValueController ??=
+                                      FormFieldController<String>(null),
+                                  options: FFAppState().schoolList,
+                                  onChanged: (val) => safeSetState(
+                                      () => _model.dropDownValue = val),
+                                  width: 500.0,
+                                  height: 60.0,
+                                  searchHintTextStyle:
+                                      FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .override(
+                                            font: GoogleFonts.inter(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
+                                            letterSpacing: 0.0,
+                                            fontWeight:
                                                 FlutterFlowTheme.of(context)
-                                                    .primary,
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      }
-                                      final textFieldSearchUniversitiesResponse =
-                                          snapshot.data!;
-
-                                      return Container(
-                                        width: 400.0,
-                                        child: TextFormField(
-                                          controller: _model.textController2,
-                                          focusNode: _model.textFieldFocusNode2,
-                                          onChanged: (_) =>
-                                              EasyDebounce.debounce(
-                                            '_model.textController2',
-                                            Duration(milliseconds: 2000),
-                                            () => safeSetState(() {}),
-                                          ),
-                                          autofocus: false,
-                                          enabled: true,
-                                          obscureText: false,
-                                          decoration: InputDecoration(
-                                            isDense: true,
-                                            labelStyle: FlutterFlowTheme.of(
-                                                    context)
-                                                .labelMedium
-                                                .override(
-                                                  font: GoogleFonts.inter(
-                                                    fontWeight: FontWeight.w500,
-                                                    fontStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .labelMedium
-                                                            .fontStyle,
-                                                  ),
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primaryText,
-                                                  fontSize: 20.0,
-                                                  letterSpacing: 0.0,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .labelMedium
-                                                          .fontStyle,
-                                                ),
-                                            hintText: 'School...',
-                                            hintStyle:
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
                                                 FlutterFlowTheme.of(context)
-                                                    .labelLarge
-                                                    .override(
-                                                      font: GoogleFonts.inter(
-                                                        fontWeight:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .labelLarge
-                                                                .fontWeight,
-                                                        fontStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .labelLarge
-                                                                .fontStyle,
-                                                      ),
-                                                      color: Color(0x4C000000),
-                                                      fontSize: 18.0,
-                                                      letterSpacing: 0.0,
-                                                      fontWeight:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .labelLarge
-                                                              .fontWeight,
-                                                      fontStyle:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .labelLarge
-                                                              .fontStyle,
-                                                    ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .black,
-                                                width: 1.0,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(24.0),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Color(0x00000000),
-                                                width: 1.0,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(24.0),
-                                            ),
-                                            errorBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .error,
-                                                width: 1.0,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(24.0),
-                                            ),
-                                            focusedErrorBorder:
-                                                OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .error,
-                                                width: 1.0,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(24.0),
-                                            ),
-                                            filled: true,
-                                            fillColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .secondaryBackground,
-                                            contentPadding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    24.0, 26.0, 24.0, 26.0),
-                                            suffixIcon: _model.textController2!
-                                                    .text.isNotEmpty
-                                                ? InkWell(
-                                                    onTap: () async {
-                                                      _model.textController2
-                                                          ?.clear();
-                                                      safeSetState(() {});
-                                                    },
-                                                    child: Icon(
-                                                      Icons.clear,
-                                                      size: 24.0,
-                                                    ),
-                                                  )
-                                                : null,
+                                                    .labelMedium
+                                                    .fontStyle,
                                           ),
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                font: GoogleFonts.inter(
-                                                  fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontWeight,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontStyle,
-                                                ),
-                                                fontSize: 18.0,
-                                                letterSpacing: 0.0,
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .fontStyle,
-                                              ),
-                                          maxLines: null,
-                                          minLines: 1,
-                                          cursorColor:
+                                  searchTextStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        font: GoogleFonts.inter(
+                                          fontWeight:
                                               FlutterFlowTheme.of(context)
-                                                  .primaryText,
-                                          enableInteractiveSelection: true,
-                                          validator: _model
-                                              .textController2Validator
-                                              .asValidator(context),
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
                                         ),
-                                      );
-                                    },
+                                        letterSpacing: 0.0,
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
+                                      ),
+                                  textStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        font: GoogleFonts.inter(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
+                                        letterSpacing: 0.0,
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
+                                      ),
+                                  hintText: 'School...',
+                                  searchHintText: 'Search...',
+                                  icon: Icon(
+                                    Icons.keyboard_arrow_down_rounded,
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    size: 24.0,
                                   ),
+                                  fillColor: FlutterFlowTheme.of(context)
+                                      .secondaryBackground,
+                                  elevation: 2.0,
+                                  borderColor: Colors.transparent,
+                                  borderWidth: 0.0,
+                                  borderRadius: 8.0,
+                                  margin: EdgeInsetsDirectional.fromSTEB(
+                                      12.0, 0.0, 12.0, 0.0),
+                                  hidesUnderline: true,
+                                  isOverButton: false,
+                                  isSearchable: true,
+                                  isMultiSelect: false,
                                 ),
                               ].divide(SizedBox(height: 20.0)),
                             ),
@@ -790,8 +708,8 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
 
                           await currentUserReference!
                               .update(createUsersRecordData(
-                            displayName: _model.textController1.text,
-                            school: _model.textController2.text,
+                            displayName: _model.textController.text,
+                            school: _model.dropDownValue,
                             grade: _model.gradeDropDownValue,
                           ));
                         },

@@ -1178,6 +1178,10 @@ class _CreateProductWidgetState extends State<CreateProductWidget> {
                                                                   .fontStyle,
                                                         ),
                                                     minLines: 1,
+                                                    keyboardType:
+                                                        const TextInputType
+                                                            .numberWithOptions(
+                                                            decimal: true),
                                                     cursorColor:
                                                         FlutterFlowTheme.of(
                                                                 context)
@@ -1200,6 +1204,9 @@ class _CreateProductWidgetState extends State<CreateProductWidget> {
                                                                         .words),
                                                           );
                                                         }),
+                                                      FilteringTextInputFormatter
+                                                          .allow(
+                                                              RegExp('[0-9 .]'))
                                                     ],
                                                   ),
                                                 ].divide(SizedBox(height: 4.0)),
@@ -1232,6 +1239,72 @@ class _CreateProductWidgetState extends State<CreateProductWidget> {
                       onPressed: () async {
                         logFirebaseEvent(
                             'CREATE_PRODUCT_PAGE_PostButton_ON_TAP');
+                        if ((_model.uploadedFileUrl_createProductPhoto !=
+                                    '') ||
+                            (_model.uploadedFileUrl_createProductPhoto ==
+                                    '')) {
+                          if (_model.serviceNameTextController.text != '') {
+                            if (_model.priceTextController.text != '') {
+                              logFirebaseEvent('PostButton_validate_form');
+                              if (_model.formKey.currentState == null ||
+                                  !_model.formKey.currentState!.validate()) {
+                                return;
+                              }
+                            } else {
+                              logFirebaseEvent('PostButton_show_snack_bar');
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Please Enter a Price',
+                                    style: TextStyle(
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                    ),
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                      FlutterFlowTheme.of(context).secondary,
+                                ),
+                              );
+                              return;
+                            }
+                          } else {
+                            logFirebaseEvent('PostButton_show_snack_bar');
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Please Enter a Name',
+                                  style: TextStyle(
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                  ),
+                                ),
+                                duration: Duration(milliseconds: 4000),
+                                backgroundColor:
+                                    FlutterFlowTheme.of(context).secondary,
+                              ),
+                            );
+                            return;
+                          }
+                        } else {
+                          logFirebaseEvent('PostButton_show_snack_bar');
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Must Include Image',
+                                style: TextStyle(
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                ),
+                              ),
+                              duration: Duration(milliseconds: 4000),
+                              backgroundColor:
+                                  FlutterFlowTheme.of(context).secondary,
+                            ),
+                          );
+                          return;
+                        }
+
                         logFirebaseEvent('PostButton_backend_call');
 
                         await ServiceRecord.collection
@@ -1246,8 +1319,6 @@ class _CreateProductWidgetState extends State<CreateProductWidget> {
                               serviceImage:
                                   _model.uploadedFileUrl_uploadedImage,
                               user: currentUserReference,
-                              servicePriceNum: double.tryParse(
-                                  _model.priceTextController.text),
                             ));
                         logFirebaseEvent('PostButton_navigate_to');
 

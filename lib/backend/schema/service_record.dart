@@ -45,11 +45,6 @@ class ServiceRecord extends FirestoreRecord {
   DocumentReference? get user => _user;
   bool hasUser() => _user != null;
 
-  // "service_price_num" field.
-  double? _servicePriceNum;
-  double get servicePriceNum => _servicePriceNum ?? 0.0;
-  bool hasServicePriceNum() => _servicePriceNum != null;
-
   void _initializeFields() {
     _serviceName = snapshotData['service_name'] as String?;
     _serviceDesc = snapshotData['service_desc'] as String?;
@@ -57,7 +52,6 @@ class ServiceRecord extends FirestoreRecord {
     _serviceFilter = snapshotData['service_filter'] as String?;
     _serviceImage = snapshotData['service_image'] as String?;
     _user = snapshotData['user'] as DocumentReference?;
-    _servicePriceNum = castToType<double>(snapshotData['service_price_num']);
   }
 
   static CollectionReference get collection =>
@@ -101,7 +95,6 @@ Map<String, dynamic> createServiceRecordData({
   String? serviceFilter,
   String? serviceImage,
   DocumentReference? user,
-  double? servicePriceNum,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -111,7 +104,6 @@ Map<String, dynamic> createServiceRecordData({
       'service_filter': serviceFilter,
       'service_image': serviceImage,
       'user': user,
-      'service_price_num': servicePriceNum,
     }.withoutNulls,
   );
 
@@ -128,8 +120,7 @@ class ServiceRecordDocumentEquality implements Equality<ServiceRecord> {
         e1?.servicePrice == e2?.servicePrice &&
         e1?.serviceFilter == e2?.serviceFilter &&
         e1?.serviceImage == e2?.serviceImage &&
-        e1?.user == e2?.user &&
-        e1?.servicePriceNum == e2?.servicePriceNum;
+        e1?.user == e2?.user;
   }
 
   @override
@@ -139,8 +130,7 @@ class ServiceRecordDocumentEquality implements Equality<ServiceRecord> {
         e?.servicePrice,
         e?.serviceFilter,
         e?.serviceImage,
-        e?.user,
-        e?.servicePriceNum
+        e?.user
       ]);
 
   @override

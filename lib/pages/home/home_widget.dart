@@ -1,6 +1,7 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/components/product_details/product_details_widget.dart';
+import '/flutter_flow/flutter_flow_ad_banner.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_choice_chips.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
@@ -722,6 +723,11 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
             children: [
               Container(
                 decoration: BoxDecoration(),
+                child: FlutterFlowAdBanner(
+                  height: 50.0,
+                  showsTestAd: false,
+                  androidAdUnitID: 'ca-app-pub-7000160957879513/5527363301',
+                ),
               ),
               Expanded(
                 child: SingleChildScrollView(
@@ -1139,14 +1145,14 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                 ],
                                                 onChanged: (val) async {
                                                   safeSetState(() =>
-                                                      _model.choiceChipsValue =
+                                                      _model.filtersValue =
                                                           val?.firstOrNull);
                                                   logFirebaseEvent(
-                                                      'HOME_ChoiceChips_8lrqob33_ON_FORM_WIDGET');
+                                                      'HOME_Filters_ON_FORM_WIDGET_SELECTED');
                                                   logFirebaseEvent(
-                                                      'ChoiceChips_update_page_state');
+                                                      'Filters_update_page_state');
                                                   _model.filterValue =
-                                                      _model.choiceChipsValue;
+                                                      _model.filtersValue;
                                                   safeSetState(() {});
                                                 },
                                                 selectedChipStyle: ChipStyle(
@@ -1186,7 +1192,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                       FlutterFlowTheme.of(
                                                               context)
                                                           .info,
-                                                  iconSize: 18.0,
+                                                  iconSize: 20.0,
                                                   elevation: 4.0,
                                                   borderColor:
                                                       FlutterFlowTheme.of(
@@ -1234,7 +1240,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                       FlutterFlowTheme.of(
                                                               context)
                                                           .primaryText,
-                                                  iconSize: 18.0,
+                                                  iconSize: 20.0,
                                                   elevation: 0.0,
                                                   borderColor:
                                                       FlutterFlowTheme.of(
@@ -1248,11 +1254,10 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                 rowSpacing: 12.0,
                                                 multiselect: false,
                                                 initialized:
-                                                    _model.choiceChipsValue !=
-                                                        null,
+                                                    _model.filtersValue != null,
                                                 alignment: WrapAlignment.start,
                                                 controller: _model
-                                                        .choiceChipsValueController ??=
+                                                        .filtersValueController ??=
                                                     FormFieldController<
                                                         List<String>>(
                                                   ['All'],
@@ -1581,9 +1586,9 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                             borderWidth:
                                                                                 1.0,
                                                                             buttonSize:
-                                                                                36.0,
+                                                                                35.0,
                                                                             fillColor:
-                                                                                FlutterFlowTheme.of(context).accent1,
+                                                                                FlutterFlowTheme.of(context).mintLeaf,
                                                                             icon:
                                                                                 Icon(
                                                                               Icons.shopping_cart_checkout_sharp,
@@ -1637,8 +1642,8 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                             StreamBuilder<List<ServiceRecord>>(
                                           stream: queryServiceRecord(
                                             queryBuilder: (serviceRecord) =>
-                                                serviceRecord.orderBy(
-                                                    'service_price_num'),
+                                                serviceRecord
+                                                    .orderBy('service_price'),
                                           ),
                                           builder: (context, snapshot) {
                                             // Customize what your widget looks like when it's loading.
@@ -1936,7 +1941,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                           buttonSize:
                                                                               36.0,
                                                                           fillColor:
-                                                                              FlutterFlowTheme.of(context).accent1,
+                                                                              FlutterFlowTheme.of(context).secondary,
                                                                           icon:
                                                                               Icon(
                                                                             Icons.shopping_cart_checkout_sharp,
@@ -1992,7 +1997,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                           stream: queryServiceRecord(
                                             queryBuilder: (serviceRecord) =>
                                                 serviceRecord.orderBy(
-                                                    'service_price_num',
+                                                    'service_price',
                                                     descending: true),
                                           ),
                                           builder: (context, snapshot) {
@@ -2291,7 +2296,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                           buttonSize:
                                                                               36.0,
                                                                           fillColor:
-                                                                              FlutterFlowTheme.of(context).accent1,
+                                                                              FlutterFlowTheme.of(context).secondary,
                                                                           icon:
                                                                               Icon(
                                                                             Icons.shopping_cart_checkout_sharp,

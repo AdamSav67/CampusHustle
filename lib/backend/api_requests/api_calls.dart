@@ -17,7 +17,9 @@ class SearchUniversitiesCall {
       apiUrl: 'http://universities.hipolabs.com/search',
       callType: ApiCallType.GET,
       headers: {},
-      params: {},
+      params: {
+        'country': "United States",
+      },
       returnBody: true,
       encodeBodyUtf8: false,
       decodeUtf8: false,

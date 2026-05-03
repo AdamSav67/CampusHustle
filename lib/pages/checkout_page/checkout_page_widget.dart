@@ -1,13 +1,14 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
+import '/backend/custom_cloud_functions/custom_cloud_function_response_manager.dart';
 import '/components/empty_cart/empty_cart_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -41,9 +42,42 @@ class _CheckoutPageWidgetState extends State<CheckoutPageWidget> {
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       logFirebaseEvent('CHECKOUT_CheckoutPage_ON_INIT_STATE');
-      logFirebaseEvent('CheckoutPage_update_app_state');
-      FFAppState().cartTotal = functions.calculateTotal((['0']).toList())!;
-      safeSetState(() {});
+      logFirebaseEvent('CheckoutPage_cloud_function');
+      try {
+        final result = await FirebaseFunctions.instance
+            .httpsCallable('calculateCartTotal')
+            .call({
+          "items": [],
+        });
+        _model.cloudFunctionipg = CalculateCartTotalCloudFunctionCallResponse(
+          data: result.data,
+          succeeded: true,
+          resultAsString: result.data.toString(),
+          jsonBody: result.data,
+        );
+      } on FirebaseFunctionsException catch (error) {
+        _model.cloudFunctionipg = CalculateCartTotalCloudFunctionCallResponse(
+          errorCode: error.code,
+          succeeded: false,
+        );
+      }
+
+      if (_model.cloudFunctionipg!.succeeded!) {
+        logFirebaseEvent('CheckoutPage_update_app_state');
+        FFAppState().cartTotal = getJsonField(
+          _model.cloudFunctionipg!.jsonBody,
+          r'''$.total''',
+        );
+        FFAppState().cartSubtotal = getJsonField(
+          _model.cloudFunctionipg!.jsonBody,
+          r'''$.subtotal''',
+        );
+        FFAppState().cartTax = getJsonField(
+          _model.cloudFunctionipg!.jsonBody,
+          r'''$.tax''',
+        );
+        safeSetState(() {});
+      }
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
@@ -404,7 +438,7 @@ class _CheckoutPageWidgetState extends State<CheckoutPageWidget> {
                                                   child: Icon(
                                                     Icons.delete_outline,
                                                     color: Color(0xFFFF5963),
-                                                    size: 24.0,
+                                                    size: 30.0,
                                                   ),
                                                 ),
                                                 Padding(
@@ -454,7 +488,7 @@ class _CheckoutPageWidgetState extends State<CheckoutPageWidget> {
                                                                 ),
                                                                 color: Color(
                                                                     0xFFFF5963),
-                                                                fontSize: 14.0,
+                                                                fontSize: 20.0,
                                                                 letterSpacing:
                                                                     0.0,
                                                                 fontWeight:
@@ -622,7 +656,7 @@ class _CheckoutPageWidgetState extends State<CheckoutPageWidget> {
                                               ),
                                         ),
                                         Text(
-                                          '\$0',
+                                          FFAppState().cartSubtotal.toString(),
                                           textAlign: TextAlign.end,
                                           style: FlutterFlowTheme.of(context)
                                               .bodyLarge
@@ -681,7 +715,7 @@ class _CheckoutPageWidgetState extends State<CheckoutPageWidget> {
                                               ),
                                         ),
                                         Text(
-                                          '\$0',
+                                          FFAppState().cartTax.toString(),
                                           textAlign: TextAlign.end,
                                           style: FlutterFlowTheme.of(context)
                                               .bodyLarge
@@ -793,12 +827,12 @@ class _CheckoutPageWidgetState extends State<CheckoutPageWidget> {
                             FFButtonWidget(
                               onPressed: () async {
                                 logFirebaseEvent(
-                                    'CHECKOUT_CONTINUE_TO_CHECKOUT_BTN_ON_TAP');
+                                    'CHECKOUT_CONTINUE_TO_PAYMENT_BTN_ON_TAP');
                                 logFirebaseEvent('Button_navigate_to');
 
-                                context.pushNamed(SuccessPageWidget.routeName);
+                                context.pushNamed(Paymentpage2Widget.routeName);
                               },
-                              text: 'Continue to Checkout',
+                              text: 'Continue to Payment',
                               options: FFButtonOptions(
                                 width: double.infinity,
                                 height: 50.0,

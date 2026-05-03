@@ -1,4 +1,5 @@
 import '/backend/backend.dart';
+import '/backend/custom_cloud_functions/custom_cloud_function_response_manager.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
 import 'checkout_page_widget.dart' show CheckoutPageWidget;
@@ -19,6 +20,8 @@ class CheckoutPageModel extends FlutterFlowModel<CheckoutPageWidget> {
 
   ///  State fields for stateful widgets in this page.
 
+  // Stores action output result for [Cloud Function - calculateCartTotal] action in CheckoutPage widget.
+  CalculateCartTotalCloudFunctionCallResponse? cloudFunctionipg;
   // State field(s) for ListView widget.
 
   PagingController<DocumentSnapshot?, CartRecord>? listViewPagingController;

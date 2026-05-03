@@ -1,0 +1,6 @@
+{
+  "debugMode": false,
+"cloudFunctionUrl": "",
+"IsDevEnvironment": false,
+"IsProductionEnvironment": true
+}

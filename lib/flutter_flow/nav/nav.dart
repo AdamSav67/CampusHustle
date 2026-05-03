@@ -94,18 +94,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier, [Widget? entryPage]) =>
           builder: (context, params) => DummyPageWidget(),
         ),
         FFRoute(
-          name: OnboardingWidget.routeName,
-          path: OnboardingWidget.routePath,
-          builder: (context, params) => OnboardingWidget(),
-        ),
-        FFRoute(
-          name: ProfilePageWidget.routeName,
-          path: ProfilePageWidget.routePath,
-          builder: (context, params) => params.isEmpty
-              ? NavBarPage(initialPage: 'ProfilePage')
-              : ProfilePageWidget(),
-        ),
-        FFRoute(
           name: RatingPageWidget.routeName,
           path: RatingPageWidget.routePath,
           builder: (context, params) => RatingPageWidget(),
@@ -124,14 +112,28 @@ GoRouter createRouter(AppStateNotifier appStateNotifier, [Widget? entryPage]) =>
           ),
         ),
         FFRoute(
-          name: SignupAndLoginPageWidget.routeName,
-          path: SignupAndLoginPageWidget.routePath,
-          builder: (context, params) => SignupAndLoginPageWidget(),
+          name: SuccessPageWidget.routeName,
+          path: SuccessPageWidget.routePath,
+          builder: (context, params) => SuccessPageWidget(),
         ),
         FFRoute(
-          name: CreateProductWidget.routeName,
-          path: CreateProductWidget.routePath,
-          builder: (context, params) => CreateProductWidget(),
+          name: AIchatBotWidget.routeName,
+          path: AIchatBotWidget.routePath,
+          builder: (context, params) => params.isEmpty
+              ? NavBarPage(initialPage: 'AIchatBot')
+              : AIchatBotWidget(),
+        ),
+        FFRoute(
+          name: OnboardingWidget.routeName,
+          path: OnboardingWidget.routePath,
+          builder: (context, params) => OnboardingWidget(),
+        ),
+        FFRoute(
+          name: ProfilePageWidget.routeName,
+          path: ProfilePageWidget.routePath,
+          builder: (context, params) => params.isEmpty
+              ? NavBarPage(initialPage: 'ProfilePage')
+              : ProfilePageWidget(),
         ),
         FFRoute(
           name: CheckoutPageWidget.routeName,
@@ -141,15 +143,30 @@ GoRouter createRouter(AppStateNotifier appStateNotifier, [Widget? entryPage]) =>
               : CheckoutPageWidget(),
         ),
         FFRoute(
+          name: PaymentpageWidget.routeName,
+          path: PaymentpageWidget.routePath,
+          builder: (context, params) => PaymentpageWidget(),
+        ),
+        FFRoute(
+          name: Paymentpage2Widget.routeName,
+          path: Paymentpage2Widget.routePath,
+          builder: (context, params) => Paymentpage2Widget(),
+        ),
+        FFRoute(
+          name: CreateProductWidget.routeName,
+          path: CreateProductWidget.routePath,
+          builder: (context, params) => CreateProductWidget(),
+        ),
+        FFRoute(
           name: HomeWidget.routeName,
           path: HomeWidget.routePath,
           builder: (context, params) =>
               params.isEmpty ? NavBarPage(initialPage: 'home') : HomeWidget(),
         ),
         FFRoute(
-          name: SuccessPageWidget.routeName,
-          path: SuccessPageWidget.routePath,
-          builder: (context, params) => SuccessPageWidget(),
+          name: SignupAndLoginPageWidget.routeName,
+          path: SignupAndLoginPageWidget.routePath,
+          builder: (context, params) => SignupAndLoginPageWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

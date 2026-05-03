@@ -1,0 +1,43 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
+
+class FFDevEnvironmentValues {
+  static const String currentEnvironment = 'Production';
+  static const String environmentValuesPath =
+      'assets/environment_values/environment.json';
+
+  static final FFDevEnvironmentValues _instance =
+      FFDevEnvironmentValues._internal();
+
+  factory FFDevEnvironmentValues() {
+    return _instance;
+  }
+
+  FFDevEnvironmentValues._internal();
+
+  Future<void> initialize() async {
+    try {
+      final String response =
+          await rootBundle.loadString(environmentValuesPath);
+      final data = await json.decode(response);
+      _debugMode = data['debugMode'];
+      _cloudFunctionUrl = data['cloudFunctionUrl'];
+      _IsDevEnvironment = data['IsDevEnvironment'];
+      _IsProductionEnvironment = data['IsProductionEnvironment'];
+    } catch (e) {
+      print('Error loading environment values: $e');
+    }
+  }
+
+  bool _debugMode = false;
+  bool get debugMode => _debugMode;
+
+  String _cloudFunctionUrl = '';
+  String get cloudFunctionUrl => _cloudFunctionUrl;
+
+  bool _IsDevEnvironment = false;
+  bool get IsDevEnvironment => _IsDevEnvironment;
+
+  bool _IsProductionEnvironment = false;
+  bool get IsProductionEnvironment => _IsProductionEnvironment;
+}

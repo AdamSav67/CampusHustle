@@ -1,4 +1,4 @@
-# Campus Hustle CSC305
+# Campus Hustle CSC305 
 
 A new Flutter project.
 
